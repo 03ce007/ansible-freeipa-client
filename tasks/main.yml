@@ -1,14 +1,6 @@
 ---
 # tasks file for ansible-freeipa-client
 
-- name: Assert supported distribution
-  tags:
-    - assertion
-    - freeipaclient
-  assert:
-    that:
-      - ansible_distribution + '-' + ansible_distribution_major_version in freeipaclient_supported_distributions
-
 - name: Assert required variables
   tags:
     - assertion
@@ -19,12 +11,8 @@
       - freeipaclient_domain is defined
       - freeipaclient_enroll_user is defined
       - freeipaclient_enroll_pass is defined
-
-- name: Import variables
-  tags:
-    - import
-    - freeipaclient
-  include_vars: "{{ ansible_distribution }}.yml"
+      - freeipaclient_install_command is defined
+      - freeipaclient_packages is defined
 
 - name: Set DNS server
   tags:
