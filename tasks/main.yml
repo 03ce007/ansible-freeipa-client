@@ -14,6 +14,16 @@
       - freeipaclient_install_command is defined
       - freeipaclient_packages is defined
 
+- name: Install required packages
+  tags:
+    - packagemanagement
+    - freeipaclient
+  become: true
+  with_items: "{{ freeipaclient_packages }}"
+  package:
+    state: present
+    name: "{{ item }}"
+
 - name: Set DNS server
   tags:
     - dns
@@ -34,16 +44,6 @@
   apt:
     update_cache: true
     cache_valid_time: 3600
-
-- name: Install required packages
-  tags:
-    - packagemanagement
-    - freeipaclient
-  become: true
-  with_items: "{{ freeipaclient_packages }}"
-  package:
-    state: present
-    name: "{{ item }}"
 
 - name: Check if host is enrolled
   tags:
